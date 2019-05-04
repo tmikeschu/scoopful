@@ -1,5 +1,4 @@
-FactoryGirl.define do
-
+FactoryBot.define do
   factory :category do
     sequence :title do |n|
       "#{n} Title"
@@ -14,7 +13,5 @@ FactoryGirl.define do
         create_list(:item, evaluator.items_count, category: category)
       end
     end
-
   end
-
 end
