@@ -4,7 +4,7 @@ FactoryBot.define do
 
     factory :order_with_items do
       transient do
-        items_count 2
+        items_count { 2 }
       end
       after(:create) do |order, evaulator|
         create_list(:orders_item, evaulator.items_count, order: order)

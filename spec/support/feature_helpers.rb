@@ -1,24 +1,24 @@
 module FeatureHelpers
   def fill_account_info
-    fill_in 'user[first_name]', with: 'Arya'
-    fill_in 'user[last_name]', with: 'Stark'
-    fill_in 'user[email]', with: 'agirl@hasnoname.com'
-    fill_in 'user[password]', with: 'password'
-    fill_in 'user[password_confirmation]', with: 'password'
+    fill_in "user[first_name]", with: "Arya"
+    fill_in "user[last_name]", with: "Stark"
+    fill_in "user[email]", with: "agirl@hasnoname.com"
+    fill_in "user[password]", with: "password"
+    fill_in "user[password_confirmation]", with: "password"
   end
 
   def edit_account_info(user)
-    fill_in 'user[first_name]', with: 'Mike'
-    fill_in 'user[last_name]', with: 'Schutte'
-    fill_in 'user[email]', with: 'mike@schutte.com'
-    fill_in 'user[current_password]', with: user.password
-    fill_in 'user[new_password]', with: 'password'
-    fill_in 'user[new_password_confirmation]', with: 'password'
+    fill_in "user[first_name]", with: "Mike"
+    fill_in "user[last_name]", with: "Schutte"
+    fill_in "user[email]", with: "mike@schutte.com"
+    fill_in "user[current_password]", with: user.password
+    fill_in "user[new_password]", with: "password"
+    fill_in "user[new_password_confirmation]", with: "password"
   end
 
   def add_item_to_cart(item)
-    within "section##{item.name.tr(' ', '-')}" do
-      click_button('Add to Cart')
+    within "section##{item.name.tr(" ", "-")}" do
+      click_button("Add to Cart")
     end
   end
 
@@ -29,7 +29,7 @@ module FeatureHelpers
 
     within "li.cart-item:nth-of-type(#{number})" do
       expect(page).to have_content item.name
-      expect(find_field('Quantity').value).to eq quantity.to_s
+      expect(find_field("Quantity").value).to eq quantity.to_s
       expect(page).to have_content "Subtotal: $#{item.price_per_unit}"
     end
   end
@@ -37,8 +37,8 @@ module FeatureHelpers
   def login_user(user)
     visit login_path
     fill_in :email, with: user.email
-    fill_in :password, with: 'password'
-    click_on 'Enter'
+    fill_in :password, with: "password"
+    click_on "Enter"
   end
 
   def expect_404
@@ -63,14 +63,14 @@ module FeatureHelpers
 
     expect(current_path).to eq cart_path
     expect(page).to have_content item.name
-    expect(find_field('Quantity').value).to eq item_info[:quantity]
+    expect(find_field("Quantity").value).to eq item_info[:quantity]
   end
 
   def expect_item_info(item, quantity)
     expect(current_path).to eq cart_path
     expect(page).to have_content item.name
-    expect(find_field('Quantity').value).to eq quantity
-    expect(page).to have_content "Subtotal: $#{item.price_per_unit}"
+    expect(find_field("Quantity").value).to eq quantity
+    expect(page).to have_content "Subtotal: $#{item.price_per_unit * quantity.to_i}"
   end
 
   def total(item1, item2, quantity = 1)
@@ -79,10 +79,11 @@ module FeatureHelpers
 
   def expect_only_orders(status)
     @orders.each do |order|
+      formatted_id = "Order ID: #{order.id}"
       if order.send(status)
-        expect(page).to have_content order.id
+        expect(page).to have_content formatted_id
       else
-        expect(page).to_not have_content order.id
+        expect(page).to_not have_content formatted_id
       end
     end
   end

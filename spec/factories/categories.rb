@@ -6,7 +6,7 @@ FactoryBot.define do
 
     factory :category_with_items do
       transient do
-        items_count 2
+        items_count { 2 }
       end
 
       after(:create) do |category, evaluator|
